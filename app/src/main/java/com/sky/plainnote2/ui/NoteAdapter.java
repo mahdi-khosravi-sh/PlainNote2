@@ -46,12 +46,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         holder.fab.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, Act_Editor.class);
 
-            intent.putExtra(Constants.KEY_NOTE_ID, noteEntity.getId());
+            intent.putExtra(Constants.KEY_NOTE_ID, mNoteEntities.get(holder.getAdapterPosition()).getId());
 
             mContext.startActivity(intent);
         });
         holder.itemView.setOnLongClickListener(v -> {
-            listOperation.deleteItem(noteEntity,position);
+            listOperation.deleteItem(holder.getAdapterPosition());
             return true;
         });
     }

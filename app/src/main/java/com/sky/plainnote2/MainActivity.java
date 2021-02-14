@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
             final int size = mNotes.size();
             mNotes.clear();
             mNotes.addAll(noteEntities);
+
             if (adapter == null) {
                 adapter = new NoteAdapter(mNotes, MainActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -148,9 +149,9 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
     private int listItemPosition;
 
     @Override
-    public void deleteItem(NoteEntity noteEntity, int position) {
+    public void deleteItem(int position) {
         action = ACTION_DELETE;
         this.listItemPosition = position;
-        mViewModel.deleteNote(noteEntity);
+        mViewModel.deleteNote(mNotes.get(position));
     }
 }
