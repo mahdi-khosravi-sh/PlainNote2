@@ -21,10 +21,12 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     private final List<NoteEntity> mNoteEntities;
     private final Context mContext;
+    private ListOperation listOperation;
 
     public NoteAdapter(List<NoteEntity> mNoteEntities, Context mContext) {
         this.mNoteEntities = mNoteEntities;
         this.mContext = mContext;
+        this.listOperation = (ListOperation) mContext;
     }
 
     @NonNull
@@ -37,6 +39,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteEntity noteEntity = mNoteEntities.get(position);
+
         holder.tvName.setText(noteEntity.getName());
         holder.tvText.setText(noteEntity.getText());
 
@@ -46,6 +49,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             intent.putExtra(Constants.KEY_NOTE_ID, noteEntity.getId());
 
             mContext.startActivity(intent);
+        });
+        holder.itemView.setOnLongClickListener(v -> {
+            listOperation.deleteItem(noteEntity,position);
+            return true;
         });
     }
 

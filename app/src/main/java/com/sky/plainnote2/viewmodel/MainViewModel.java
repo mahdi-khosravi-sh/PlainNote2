@@ -10,8 +10,6 @@ import com.sky.plainnote2.database.NoteEntity;
 import com.sky.plainnote2.database.NoteRepository;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainViewModel extends AndroidViewModel {
     public LiveData<List<NoteEntity>> mLiveNotes;
@@ -29,5 +27,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void deleteAll() {
         mRepo.deleteAll();
+    }
+
+    public void deleteNote(NoteEntity noteEntity) {
+        mRepo.deleteNote(noteEntity);
     }
 }

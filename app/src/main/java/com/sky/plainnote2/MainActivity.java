@@ -18,13 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.ui.ListOperation;
 import com.sky.plainnote2.ui.NoteAdapter;
 import com.sky.plainnote2.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListOperation {
     private final List<NoteEntity> mNotes = new ArrayList<>();
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
@@ -77,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                         adapter.notifyItemRangeRemoved(0, size);
                         break;
                     }
+                    case ACTION_DELETE: {
+                        adapter.notifyItemRemoved(listItemPosition);
+                        break;
+                    }
                     case ACTION_ADD_SAMPLE: {
                         final int ADAPTER_ITEM_COUNT = adapter.getItemCount();
                         adapter.notifyItemRangeInserted(ADAPTER_ITEM_COUNT, 3);
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         adapter.notifyItemInserted(mNotes.size() - 1);
                         break;
                     }
-                    case -1:{
+                    case -1: {
                         adapter.notifyDataSetChanged();
                         break;
                     }
@@ -138,5 +143,14 @@ public class MainActivity extends AppCompatActivity {
     private void addSampleData() {
         action = ACTION_ADD_SAMPLE;
         mViewModel.addSampleData();
+    }
+
+    private int listItemPosition;
+
+    @Override
+    public void deleteItem(NoteEntity noteEntity, int position) {
+        action = ACTION_DELETE;
+        this.listItemPosition = position;
+        mViewModel.deleteNote(noteEntity);
     }
 }
