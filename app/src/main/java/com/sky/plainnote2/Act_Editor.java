@@ -21,7 +21,6 @@ public class Act_Editor extends AppCompatActivity {
     private boolean isEditing;
     private EditText etNoteName;
     private EditText etNoteText;
-
     private EditorViewModel mViewModel;
 
     @Override
@@ -51,6 +50,9 @@ public class Act_Editor extends AppCompatActivity {
             int id = bundle.getInt(Constants.KEY_NOTE_ID);
             mViewModel.loadData(id);
             isEditing = true;
+            setTitle("Editing note");
+        }else{
+            setTitle("New note");
         }
     }
 
