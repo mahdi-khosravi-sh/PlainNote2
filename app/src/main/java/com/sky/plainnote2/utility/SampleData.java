@@ -25,11 +25,16 @@ public class SampleData {
         return calendar.getTime();
     }
 
+
+    private static int i = 0;
+
     public static List<NoteEntity> getNotes() {
         List<NoteEntity> noteEntities = new ArrayList<>();
-        noteEntities.add(new NoteEntity("Note 1", SAMPLE_1, getDate(0)));
-        noteEntities.add(new NoteEntity("Note 2", SAMPLE_1, getDate(1000)));
-        noteEntities.add(new NoteEntity("Note 3", SAMPLE_1, getDate(2000)));
+
+        noteEntities.add(new NoteEntity("Note " + ++i, SAMPLE_1, getDate(1000)));
+        noteEntities.add(new NoteEntity("Note " + ++i, SAMPLE_2, getDate(2000)));
+        noteEntities.add(new NoteEntity("Note " + ++i, SAMPLE_3, getDate(3000)));
+
         return noteEntities;
     }
 }

@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,17 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sky.plainnote2.database.NoteEntity;
 import com.sky.plainnote2.ui.NoteAdapter;
-import com.sky.plainnote2.utility.SampleData;
+import com.sky.plainnote2.viewmodel.MainViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private final List<NoteEntity> mNoteEntities = SampleData.getNotes();
+    private final List<NoteEntity> mNotes = new ArrayList<>();
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
+    private MainViewModel mViewModel;
 
-    /* commented from github */
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         findViews();
 
         initRecyclerView();
+
+        initViewModel();
     }
 
     private void findViews() {
@@ -44,6 +48,58 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recyclerView);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, Act_Editor.class));
+        });
+    }
+
+
+    private static final int ACTION_INSERT = 0;
+    private static final int ACTION_ADD_SAMPLE = 1;
+    private static final int ACTION_CHANGE = 2;
+    private static final int ACTION_DELETE = 3;
+    private static final int ACTION_DELETE_ALL = 4;
+    private int action = -1;
+
+    private void initViewModel() {
+        final Observer<List<NoteEntity>> observer = noteEntities -> {
+            final int size = mNotes.size();
+            mNotes.clear();
+            mNotes.addAll(noteEntities);
+            if (adapter == null) {
+                adapter = new NoteAdapter(mNotes, MainActivity.this);
+                recyclerView.setAdapter(adapter);
+            } else {
+                switch (action) {
+                    case ACTION_DELETE_ALL: {
+                        adapter.notifyItemRangeRemoved(0, size);
+                        break;
+                    }
+                    case ACTION_ADD_SAMPLE: {
+                        final int ADAPTER_ITEM_COUNT = adapter.getItemCount();
+                        adapter.notifyItemRangeInserted(ADAPTER_ITEM_COUNT, 3);
+                        break;
+                    }
+                    case ACTION_INSERT: {
+                        adapter.notifyItemInserted(mNotes.size() - 1);
+                        break;
+                    }
+                    case -1:{
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+                action = -1;
+            }
+        };
+
+        mViewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getApplication()))
+                .get(MainViewModel.class);
+
+        mViewModel.mLiveNotes.observe(this, observer);
     }
 
     private void initRecyclerView() {
@@ -53,14 +109,6 @@ public class MainActivity extends AppCompatActivity {
         decoration.setDrawable(new ColorDrawable(Color.parseColor("#EDEDED")));
 
         recyclerView.addItemDecoration(decoration);
-
-        adapter = new NoteAdapter(mNoteEntities, this);
-        recyclerView.setAdapter(adapter);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, Act_Editor.class));
-        });
     }
 
     @Override
@@ -71,6 +119,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        final int id = item.getItemId();
+        if (id == R.id.action_add_sample) {
+            addSampleData();
+            return true;
+        } else if (id == R.id.action_delete_all) {
+            deleteAll();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteAll() {
+        action = ACTION_DELETE_ALL;
+        mViewModel.deleteAll();
+    }
+
+    private void addSampleData() {
+        action = ACTION_ADD_SAMPLE;
+        mViewModel.addSampleData();
     }
 }

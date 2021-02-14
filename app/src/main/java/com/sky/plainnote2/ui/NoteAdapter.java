@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,11 +38,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoteEntity noteEntity = mNoteEntities.get(position);
         holder.tvName.setText(noteEntity.getName());
+        holder.tvText.setText(noteEntity.getText());
 
         holder.fab.setOnClickListener(v -> {
             Intent intent = new Intent(mContext, Act_Editor.class);
-            intent.putExtra(Constants.KEY_NOTE_NAME, noteEntity.getName());
-            intent.putExtra(Constants.KEY_NOTE_TEXT, noteEntity.getText());
+
+            intent.putExtra(Constants.KEY_NOTE_ID, noteEntity.getId());
+
             mContext.startActivity(intent);
         });
     }
@@ -53,11 +56,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
+        TextView tvText;
         FloatingActionButton fab;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
+            tvText = itemView.findViewById(R.id.tvText);
             fab = itemView.findViewById(R.id.fab);
         }
     }

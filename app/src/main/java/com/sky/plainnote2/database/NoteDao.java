@@ -1,21 +1,23 @@
 package com.sky.plainnote2.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
 
 @Dao
 public interface NoteDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<NoteEntity> notes);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(NoteEntity... notes);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(NoteEntity note);
 
     @Delete
@@ -24,8 +26,8 @@ public interface NoteDao {
     @Query("DELETE FROM tbl_notes")
     void deleteAll();
 
-    @Query("SELECT * FROM tbl_notes ORDER BY name")
-    List<NoteEntity> getAll();
+    @Query("SELECT * FROM tbl_notes ")
+    LiveData<List<NoteEntity>> getAll();
 
     @Query("SELECT * FROM tbl_notes WHERE id=:id")
     NoteEntity findNoteById(int id);

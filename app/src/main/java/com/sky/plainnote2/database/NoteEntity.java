@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity(tableName = "tbl_notes")
@@ -16,6 +17,7 @@ public class NoteEntity {
     private Date date;
 
     public NoteEntity() {
+        date = new Date(System.currentTimeMillis());
     }
 
     @Ignore
@@ -63,6 +65,10 @@ public class NoteEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setDateToCurrent(long timeStamp) {
+        date = new Date(timeStamp);
     }
 
     @NonNull
