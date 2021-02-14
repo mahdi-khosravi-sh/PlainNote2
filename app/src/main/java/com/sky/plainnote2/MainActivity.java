@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
 
+    /* commented from github */
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
