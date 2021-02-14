@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Act_Editor"
+    tools:showIn="@layout/act_editor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etNoteName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:ellipsize="end"
+            android:hint="@string/note_name"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etNoteText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:hint="@string/note_text"
+            android:inputType="textMultiLine"
+            android:text="@string/large_text" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
