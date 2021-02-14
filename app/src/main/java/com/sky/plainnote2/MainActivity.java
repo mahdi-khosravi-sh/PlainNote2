@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.recyclerView);
+        tvEmptyList = findViewById(R.id.tvEmptyList);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
@@ -64,12 +67,13 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
     private static final int ACTION_DELETE_ALL = 4;
     private int action = -1;
 
+    private TextView tvEmptyList;
+
     private void initViewModel() {
         final Observer<List<NoteEntity>> observer = noteEntities -> {
             final int size = mNotes.size();
             mNotes.clear();
             mNotes.addAll(noteEntities);
-
             if (adapter == null) {
                 adapter = new NoteAdapter(mNotes, MainActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -98,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
                     }
                 }
                 action = -1;
+
             }
+            syncEmptyViewVisibility();
         };
 
         mViewModel = new ViewModelProvider(this,
@@ -106,6 +112,16 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
                 .get(MainViewModel.class);
 
         mViewModel.mLiveNotes.observe(this, observer);
+    }
+
+    private void syncEmptyViewVisibility() {
+        if (mNotes.size() == 0) {
+            tvEmptyList.animate().alpha(1F);
+            recyclerView.animate().alpha(0F);
+        } else {
+            tvEmptyList.animate().alpha(0F);
+            recyclerView.animate().alpha(1F);
+        }
     }
 
     private void initRecyclerView() {
