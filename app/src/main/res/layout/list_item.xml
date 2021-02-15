@@ -49,4 +49,17 @@
         app:layout_constraintStart_toEndOf="@id/fab"
         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgLock"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_lock_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

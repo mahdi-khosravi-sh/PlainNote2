@@ -7,6 +7,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.sky.plainnote2.database.entities.NoteEntity;
+
 import java.util.List;
 
 @Dao

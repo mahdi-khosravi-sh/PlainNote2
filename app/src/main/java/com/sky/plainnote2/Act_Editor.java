@@ -5,15 +5,18 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
+import com.sky.plainnote2.database.entities.Password;
 import com.sky.plainnote2.utility.Constants;
 import com.sky.plainnote2.viewmodel.EditorViewModel;
 
@@ -51,14 +54,14 @@ public class Act_Editor extends AppCompatActivity {
             mViewModel.loadData(id);
             isEditing = true;
             setTitle("Editing note");
-        }else{
+        } else {
             setTitle("New note");
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (isEditing) {
+        if (!isEditing) {
             getMenuInflater().inflate(R.menu.menu_editor, menu);
             return true;
         }
@@ -100,7 +103,7 @@ public class Act_Editor extends AppCompatActivity {
         etNoteName = findViewById(R.id.etNoteName);
         etNoteText = findViewById(R.id.etNoteText);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();

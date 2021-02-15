@@ -1,6 +1,6 @@
 package com.sky.plainnote2.utility;
 
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
 
 import java.util.ArrayList;
 import java.util.Calendar;

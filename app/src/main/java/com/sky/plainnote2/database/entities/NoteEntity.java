@@ -1,11 +1,10 @@
-package com.sky.plainnote2.database;
+package com.sky.plainnote2.database.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity(tableName = "tbl_notes")
@@ -15,6 +14,7 @@ public class NoteEntity {
     private String name;
     private String text;
     private Date date;
+    private Password password;
 
     public NoteEntity() {
         date = new Date(System.currentTimeMillis());
@@ -69,6 +69,14 @@ public class NoteEntity {
 
     public void setDateToCurrent(long timeStamp) {
         date = new Date(timeStamp);
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
     }
 
     @NonNull

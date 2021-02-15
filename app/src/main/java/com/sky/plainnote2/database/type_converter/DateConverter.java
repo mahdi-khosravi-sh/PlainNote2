@@ -1,4 +1,4 @@
-package com.sky.plainnote2.database;
+package com.sky.plainnote2.database.type_converter;
 
 import androidx.room.TypeConverter;
 

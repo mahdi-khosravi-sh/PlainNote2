@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -18,7 +22,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
+import com.sky.plainnote2.database.entities.Password;
 import com.sky.plainnote2.ui.ListOperation;
 import com.sky.plainnote2.ui.NoteAdapter;
 import com.sky.plainnote2.viewmodel.MainViewModel;
@@ -27,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ListOperation {
+    private static final String TAG = "SecurityMD5";
     private final List<NoteEntity> mNotes = new ArrayList<>();
     private RecyclerView recyclerView;
     private NoteAdapter adapter;
@@ -61,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
 
     private static final int ACTION_INSERT = 0;
     private static final int ACTION_ADD_SAMPLE = 1;
-    private static final int ACTION_CHANGE = 2;
     private static final int ACTION_DELETE = 3;
     private static final int ACTION_DELETE_ALL = 4;
     private int action = -1;
@@ -101,11 +106,9 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
                     }
                 }
                 action = -1;
-
             }
             syncEmptyViewVisibility();
         };
-
         mViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication()))
                 .get(MainViewModel.class);
@@ -168,5 +171,35 @@ public class MainActivity extends AppCompatActivity implements ListOperation {
         action = ACTION_DELETE;
         this.listItemPosition = position;
         mViewModel.deleteNote(mNotes.get(position));
+    }
+
+    @Override
+    public void setPassword(int position) {
+        showPasswordDialog(mNotes.get(position));
+    }
+
+    private void showPasswordDialog(NoteEntity noteEntity) {
+        EditText editText = new EditText(this);
+        editText.setHint("Enter password");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Set Password")
+                .setView(editText)
+                .setPositiveButton("Set", (dialog, which) -> {
+                    String strPassword = editText.getText().toString().trim();
+                    if (TextUtils.isEmpty(strPassword)) {
+                        Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Password password = new Password();
+                    password.setPassword(strPassword);
+
+                    noteEntity.setPassword(password);
+                    mViewModel.saveNote(noteEntity);
+
+                    dialog.dismiss();
+                }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
     }
 }

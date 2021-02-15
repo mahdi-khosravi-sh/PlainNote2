@@ -95,4 +95,5 @@
     <string name="action_delete">Delete</string>
     <string name="note_text">Note text</string>
     <string name="note_name">Note name</string>
+    <string name="action_set_password">Set Password</string>
 </resources>

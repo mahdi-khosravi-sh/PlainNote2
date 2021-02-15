@@ -7,8 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.sky.plainnote2.database.entities.NoteEntity;
+import com.sky.plainnote2.database.type_converter.DateConverter;
+import com.sky.plainnote2.database.type_converter.PasswordConverter;
+
 @Database(entities = {NoteEntity.class}, version = 1)
-@TypeConverters({DateConverter.class})
+@TypeConverters({DateConverter.class, PasswordConverter.class})
 public abstract class NoteDatabase extends RoomDatabase {
     private static NoteDatabase instance;
 

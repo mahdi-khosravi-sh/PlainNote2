@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
 import com.sky.plainnote2.database.NoteRepository;
 
 import java.text.DateFormat;

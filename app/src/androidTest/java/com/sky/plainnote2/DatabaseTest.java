@@ -8,7 +8,7 @@ import androidx.room.Room;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import com.sky.plainnote2.database.NoteDatabase;
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
 import com.sky.plainnote2.utility.SampleData;
 import org.junit.After;
 import org.junit.Before;

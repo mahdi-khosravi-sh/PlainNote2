@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.sky.plainnote2.database.NoteEntity;
+import com.sky.plainnote2.database.entities.NoteEntity;
 import com.sky.plainnote2.database.NoteRepository;
 
 import java.util.List;
@@ -31,5 +31,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void deleteNote(NoteEntity noteEntity) {
         mRepo.deleteNote(noteEntity);
+    }
+
+    public void saveNote(NoteEntity noteEntity) {
+        mRepo.saveNote(noteEntity);
     }
 }

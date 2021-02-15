@@ -2,9 +2,9 @@ package com.sky.plainnote2.database;
 
 import android.content.Context;
 
-import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
+import com.sky.plainnote2.database.entities.NoteEntity;
 import com.sky.plainnote2.utility.SampleData;
 
 import java.util.List;
